@@ -1,6 +1,6 @@
 # RoteirizAI 🌍✈️
 
-**RoteirizAI** é um SaaS de planejamento de viagens completo que utiliza inteligência artificial para criar roteiros personalizados em segundos. O sistema integra transporte, hospedagem, gastronomia e informações práticas para garantir a melhor experiência de viagem.
+**RoteirizAI** é um SaaS de planejamento de viagens que utiliza inteligência artificial para criar roteiros personalizados. O sistema integra transporte, hospedagem, gastronomia e informações práticas para garantir a melhor experiência de viagem.
 
 ## 🚀 Funcionalidades
 
