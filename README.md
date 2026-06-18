@@ -1,71 +1,138 @@
-# RoteirizAI 🌍✈️
+# 🌍✈️ RoteirizAI
 
-**RoteirizAI** é um SaaS de planejamento de viagens que utiliza inteligência artificial para criar roteiros personalizados. O sistema integra transporte, hospedagem, gastronomia e informações práticas para garantir a melhor experiência de viagem.
+> **SaaS de planejamento de viagens com Inteligência Artificial.** Cria roteiros personalizados integrando transporte, hospedagem, gastronomia e informações práticas.
+
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933.svg)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-18-61DAFB.svg)](https://reactjs.org/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-API-412991.svg)](https://openai.com/)
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+
+---
 
 ## 🚀 Funcionalidades
 
-- **Busca Inteligente**: Planejamento com base em origem, destino, datas e número de pessoas.
-- **Hospedagem Categorizada**: Sugestões de baixo, médio e alto custo com análise de prós e contras.
-- **Comparação de Transporte**: Cruzamento de dados de aviões, ônibus (FlixBus) e trens.
-- **Gastronomia & Atrações**: Recomendações baseadas em avaliações reais e geolocalização.
-- **Informações Práticas**: Clima local, cotação de moeda, vacinas e dicas de bagagem.
-- **Roteiro Gerado por IA**: Itinerário dia a dia totalmente personalizável.
+| Feature | Descrição |
+|---------|-----------|
+| 🔍 **Busca Inteligente** | Planejamento com base em origem, destino, datas e número de pessoas |
+| 🏨 **Hospedagem Categorizada** | Sugestões de baixo, médio e alto custo com análise de prós e contras |
+| 🚌 **Comparação de Transporte** | Cruzamento de dados de aviões, ônibus (FlixBus) e trens |
+| 🍽️ **Gastronomia & Atrações** | Recomendações baseadas em avaliações reais e geolocalização |
+| 🌤️ **Informações Práticas** | Clima local, cotação de moeda, vacinas e dicas de bagagem |
+| 🤖 **Roteiro Gerado por IA** | Itinerário dia a dia totalmente personalizável via OpenAI |
 
-## 🛠️ Tecnologias Utilizadas
+---
+
+## 🛠️ Tecnologias
 
 ### Frontend
-- **React (Vite)**
-- **Tailwind CSS v4** (Design System Moderno)
-- **Lucide React** (Ícones)
-- **Framer Motion** (Animações)
-- **Axios** (Integração de API)
+| Tecnologia | Uso |
+|------------|-----|
+| React (Vite) | Interface do usuário |
+| Tailwind CSS v4 | Design System moderno |
+| Lucide React | Ícones |
+| Framer Motion | Animações |
+| Axios | Integração com API |
 
 ### Backend
-- **Node.js + Express**
-- **Sequelize ORM**
-- **SQLite** (Banco de dados local)
-- **OpenAI API** (Planejamento por IA)
+| Tecnologia | Uso |
+|------------|-----|
+| Node.js + Express | API REST |
+| Sequelize ORM | Abstração do banco de dados |
+| SQLite | Banco de dados local |
+| OpenAI API | Geração de roteiros por IA |
 
-## 📦 Instalação e Configuração
+---
+
+## 📸 Screenshots
+
+| Home | Busca | Roteiro |
+|------|-------|---------|
+| ![Home](docs/screenshots/home.png) | ![Busca](docs/screenshots/busca.png) | ![Roteiro](docs/screenshots/roteiro.png) |
+
+---
+
+## 📦 Instalação
 
 ### Pré-requisitos
-- Node.js (v18+)
+- Node.js 18+
 - npm
+- Chave da OpenAI API
 
 ### Passo a Passo
 
-1. **Clonar o repositório**
-   ```bash
-   git clone <repo-url>
-   cd neo
-   ```
+```bash
+# 1. Clone
+git clone https://github.com/mannowell/RoteirizAI.git
+cd RoteirizAI
 
-2. **Configurar o Backend**
-   ```bash
-   npm install
-   cp .env.example .env # Configure suas chaves de API aqui
-   node index.js
-   ```
+# 2. Backend
+npm install
+cp .env.example .env    # Configure sua OPENAI_API_KEY
+node index.js
 
-3. **Configurar o Frontend**
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
+# 3. Frontend
+cd frontend
+npm install
+npm run dev
+```
+
+### Variáveis de Ambiente (.env)
+```env
+OPENAI_API_KEY=sua_chave_aqui
+PORT=3001
+```
+
+---
 
 ## 📂 Estrutura do Projeto
 
-```text
-/
-├── controllers/    # Lógica de controle das requisições
-├── routes/         # Definição das rotas da API
-├── services/       # Integração com APIs externas e lógica de negócio
-├── models/         # Modelos do Sequelize (Banco de dados)
-├── frontend/       # Aplicação React (Interface do usuário)
-└── index.js        # Ponto de entrada do servidor backend
 ```
+RoteirizAI/
+├── controllers/       # Lógica de controle das requisições
+├── routes/            # Definição das rotas da API
+├── services/          # Integração com APIs externas
+│   └── openai.js      # Integração com OpenAI
+├── models/            # Modelos do Sequelize
+├── frontend/          # Aplicação React
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   └── services/
+│   └── index.html
+├── index.js           # Ponto de entrada do backend
+├── package.json
+└── README.md
+```
+
+---
+
+## 🔌 API Endpoints
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/api/health` | Health check |
+| POST | `/api/trips` | Criar novo roteiro |
+| GET | `/api/trips/:id` | Buscar roteiro |
+| PUT | `/api/trips/:id` | Atualizar roteiro |
+| DELETE | `/api/trips/:id` | Deletar roteiro |
+
+---
 
 ## 📄 Licença
 
-Este projeto está sob a licença ISC.
+Distribuído sob licença **ISC**.
+
+---
+
+## 👤 Autor
+
+**Wellison Oliveira (Mannowell)**
+
+- 🌐 [GitHub](https://github.com/mannowell)
+- 💼 [LinkedIn](https://linkedin.com/in/wellison-nascimento-79ba6b65/)
+- 📧 [Email](mailto:manofama@gmail.com)
+- 🔗 [Portfolio](https://mannowell.github.io/Portifolio/)
+
+---
+
+> 📌 **Projeto de portfólio** — Demonstração de habilidades em desenvolvimento fullstack, integração com IA (OpenAI), e criação de SaaS.
