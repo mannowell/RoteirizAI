@@ -1,62 +1,60 @@
-# 🌍✈️ RoteirizAI
+# RoteirizAI
 
-> **SaaS de planejamento de viagens com Inteligência Artificial.** Cria roteiros personalizados integrando transporte, hospedagem, gastronomia e informações práticas.
+> **SaaS de planejamento de viagens com Inteligencia Artificial.** Cria roteiros personalizados integrando transporte, hospedagem, gastronomia e informacoes praticas.
 
 [![Node.js](https://img.shields.io/badge/Node.js-18+-339933.svg)](https://nodejs.org/)
-[![React](https://img.shields.io/badge/React-18-61DAFB.svg)](https://reactjs.org/)
-[![OpenAI](https://img.shields.io/badge/OpenAI-API-412991.svg)](https://openai.com/)
+[![React](https://img.shields.io/badge/React-19-61DAFB.svg)](https://reactjs.org/)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 
 ---
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
-| Feature | Descrição |
+| Feature | Descricao |
 |---------|-----------|
-| 🔍 **Busca Inteligente** | Planejamento com base em origem, destino, datas e número de pessoas |
-| 🏨 **Hospedagem Categorizada** | Sugestões de baixo, médio e alto custo com análise de prós e contras |
-| 🚌 **Comparação de Transporte** | Cruzamento de dados de aviões, ônibus (FlixBus) e trens |
-| 🍽️ **Gastronomia & Atrações** | Recomendações baseadas em avaliações reais e geolocalização |
-| 🌤️ **Informações Práticas** | Clima local, cotação de moeda, vacinas e dicas de bagagem |
-| 🤖 **Roteiro Gerado por IA** | Itinerário dia a dia totalmente personalizável via OpenAI |
+| **Busca Inteligente** | Planejamento com base em origem, destino, datas e numero de pessoas |
+| **Hospedagem Categorizada** | Sugestoes de baixo, medio e alto custo com analise de pros e contras |
+| **Comparacao de Transporte** | Cruzamento de dados de avioes, trens e onibus via Amadeus API |
+| **Gastronomia & Atracoes** | Recomendacoes geradas por IA com base no destino |
+| **Informacoes Praticas** | Clima local, cotacao de moeda e dicas de viagem |
+| **Roteiro Gerado por IA** | Itinerario dia a dia personalizado via Groq (Llama 3.3 70B) |
+| **Mapa Interativo** | Visualizacao do destino com Leaflet + OpenStreetMap |
 
 ---
 
-## 🛠️ Tecnologias
+## Tecnologias
 
 ### Frontend
+
 | Tecnologia | Uso |
 |------------|-----|
-| React (Vite) | Interface do usuário |
-| Tailwind CSS v4 | Design System moderno |
-| Lucide React | Ícones |
-| Framer Motion | Animações |
-| Axios | Integração com API |
+| React 19 (Vite 6) | Interface do usuario |
+| Tailwind CSS v4 | Design System |
+| Lucide React | Icones |
+| Framer Motion | Animacoes |
+| Leaflet + React-Leaflet | Mapa interativo |
+| Axios | Integracao com API |
 
 ### Backend
+
 | Tecnologia | Uso |
 |------------|-----|
 | Node.js + Express | API REST |
-| Sequelize ORM | Abstração do banco de dados |
+| Sequelize ORM | Abstracao do banco de dados |
 | SQLite | Banco de dados local |
-| OpenAI API | Geração de roteiros por IA |
+| Groq API (Llama 3.3 70B) | Geracao de roteiros por IA |
+| Amadeus API | Busca de voos e hoteis |
+| Nominatim/OpenStreetMap | Geocodificacao |
 
 ---
 
-## 📸 Screenshots
+## Instalacao
 
-| Home | Busca | Roteiro |
-|------|-------|---------|
-| ![Home](docs/screenshots/home.png) | ![Busca](docs/screenshots/busca.png) | ![Roteiro](docs/screenshots/roteiro.png) |
-
----
-
-## 📦 Instalação
-
-### Pré-requisitos
+### Pre-requisitos
 - Node.js 18+
 - npm
-- Chave da OpenAI API
+- Chave da Groq API (ou OpenAI)
+- Chaves da Amadeus API (opcional)
 
 ### Passo a Passo
 
@@ -67,72 +65,117 @@ cd RoteirizAI
 
 # 2. Backend
 npm install
-cp .env.example .env    # Configure sua OPENAI_API_KEY
+cp .env.example .env    # Configure suas chaves de API
 node index.js
 
-# 3. Frontend
+# 3. Frontend (em outro terminal)
 cd frontend
 npm install
 npm run dev
 ```
 
-### Variáveis de Ambiente (.env)
+### Variaveis de Ambiente (.env)
+
 ```env
-OPENAI_API_KEY=sua_chave_aqui
-PORT=3001
+# Servidor
+PORT=5000
+NODE_ENV=development
+
+# IA - Groq (obtenha em https://console.groq.com/keys)
+GROQ_API_KEY=gsk_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# Amadeus Travel API (obtenha em https://developers.amadeus.com/)
+AMADEUS_CLIENT_ID=SEU_AMADEUS_CLIENT_ID
+AMADEUS_CLIENT_SECRET=SUA_AMADEUS_CLIENT_SECRET
 ```
+
+> **Nota:** O frontend conecta automaticamente em `http://localhost:5000`. Se usar outra porta, atualize a URL em `frontend/src/App.jsx`.
 
 ---
 
-## 📂 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 RoteirizAI/
-├── controllers/       # Lógica de controle das requisições
-├── routes/            # Definição das rotas da API
-├── services/          # Integração com APIs externas
-│   └── openai.js      # Integração com OpenAI
-├── models/            # Modelos do Sequelize
-├── frontend/          # Aplicação React
+├── index.js                    # Ponto de entrada do backend (Express)
+├── config/config.json          # Configuracao do Sequelize (SQLite)
+├── controllers/
+│   └── travelController.js     # Handler do planejamento de viagem
+├── routes/
+│   └── travelRoutes.js         # Definicao de rotas
+├── services/
+│   ├── itineraryService.js     # Orquestrador: geocoding + IA + Amadeus
+│   ├── openaiService.js        # Integracao com Groq/OpenAI
+│   └── amadeusService.js       # Busca de voos e hoteis
+├── models/
+│   └── index.js                # Loader de modelos Sequelize
+├── frontend/                   # Aplicacao React (Vite)
 │   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   └── services/
+│   │   ├── App.jsx             # Componente principal
+│   │   ├── index.css           # Tailwind + estilos globais
+│   │   └── components/
+│   │       └── MapComponent.jsx
 │   └── index.html
-├── index.js           # Ponto de entrada do backend
-├── package.json
-└── README.md
+├── .env.example
+└── package.json
 ```
 
 ---
 
-## 🔌 API Endpoints
+## API Endpoints
 
-| Método | Endpoint | Descrição |
+| Metodo | Endpoint | Descricao |
 |--------|----------|-----------|
+| GET | `/` | Status da API |
 | GET | `/api/health` | Health check |
-| POST | `/api/trips` | Criar novo roteiro |
-| GET | `/api/trips/:id` | Buscar roteiro |
-| PUT | `/api/trips/:id` | Atualizar roteiro |
-| DELETE | `/api/trips/:id` | Deletar roteiro |
+| POST | `/api/travel/plan` | Gerar roteiro de viagem |
+
+### Exemplo de requisicao
+
+```bash
+curl -X POST http://localhost:5000/api/travel/plan \
+  -H "Content-Type: application/json" \
+  -d '{
+    "origin": "Sao Paulo",
+    "destination": "Porto",
+    "startDate": "2025-03-15",
+    "endDate": "2025-03-18",
+    "people": 2
+  }'
+```
+
+### Resposta
+
+```json
+{
+  "summary": "Roteiro: Sao Paulo -> Porto",
+  "coordinates": { "lat": 41.1579, "lon": -8.6291, "displayName": "..." },
+  "isDemo": false,
+  "accommodations": { "low": {...}, "medium": {...}, "high": {...} },
+  "transports": [...],
+  "practicalInfo": { "weather": "...", "currency": "...", "tips": "..." },
+  "itinerary": [{ "day": 1, "activity": "..." }],
+  "recommendations": { "restaurants": [...], "attractions": [...] }
+}
+```
 
 ---
 
-## 📄 Licença
+## Licenca
 
-Distribuído sob licença **ISC**.
+Distribuido sob licenca **ISC**.
 
 ---
 
-## 👤 Autor
+## Autor
 
 **Wellison Oliveira (Mannowell)**
 
-- 🌐 [GitHub](https://github.com/mannowell)
-- 💼 [LinkedIn](https://linkedin.com/in/wellison-nascimento-79ba6b65/)
-- 📧 [Email](mailto:manofama@gmail.com)
-- 🔗 [Portfolio](https://mannowell.github.io/Portifolio/)
+- [GitHub](https://github.com/mannowell)
+- [LinkedIn](https://linkedin.com/in/wellison-nascimento-79ba6b65/)
+- [Email](mailto:manofama@gmail.com)
+- [Portfolio](https://mannowell.github.io/Portifolio/)
 
 ---
 
-> 📌 **Projeto de portfólio** — Demonstração de habilidades em desenvolvimento fullstack, integração com IA (OpenAI), e criação de SaaS.
+> **Projeto de portfolio** — Demonstracao de habilidades em desenvolvimento fullstack, integracao com IA, e criacao de SaaS.

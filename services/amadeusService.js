@@ -30,7 +30,7 @@ exports.getHotelOffers = async (cityCode) => {
     return response.data.slice(0, 3).map((hotel, index) => ({
       name: hotel.name,
       price: index === 0 ? 'R$ 200/noite' : index === 1 ? 'R$ 500/noite' : 'R$ 1.200/noite',
-      rating: (Math.random() * (5 - 3.5) + 3.5).toFixed(1),
+      rating: (3.5 + (index * 0.7)).toFixed(1),
       pros: index === 0 ? ['Preço baixo'] : index === 1 ? ['Conforto', 'Café'] : ['Luxo', 'Vip'],
       cons: index === 0 ? ['Simples'] : index === 1 ? ['Normal'] : ['Caro']
     }));

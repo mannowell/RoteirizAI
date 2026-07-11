@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Calendar, Users, Search, Plane, Hotel, Utensils, Info, CheckCircle2, XCircle, Star, ArrowRight, Loader2, Map as MapIcon } from 'lucide-react';
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import MapComponent from './components/MapComponent';
@@ -19,7 +20,7 @@ const App = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5555/api/travel/plan', formData);
+      const response = await axios.post('http://localhost:5000/api/travel/plan', formData);
       setResults(response.data);
     } catch (error) {
       console.error('Error fetching plan:', error);
@@ -74,7 +75,7 @@ const App = () => {
               transition={{ delay: 0.2 }}
               className="p-8 rounded-3xl glass border border-white/10 shadow-2xl"
             >
-              <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-semibold text-white/40 uppercase tracking-wider ml-1">Origem</label>
                   <div className="relative group">
@@ -114,6 +115,22 @@ const App = () => {
                       className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:border-teal-500/40 transition-all"
                       value={formData.startDate}
                       onChange={(e) => setFormData({...formData, startDate: e.target.value})}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-white/40 uppercase tracking-wider ml-1">Pessoas</label>
+                  <div className="relative group">
+                    <Users className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-orange-400 transition-colors" />
+                    <input 
+                      type="number" 
+                      min="1"
+                      max="20"
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500/40 transition-all"
+                      value={formData.people}
+                      onChange={(e) => setFormData({...formData, people: parseInt(e.target.value) || 1})}
                       required
                     />
                   </div>

@@ -18,6 +18,10 @@ app.get('/', (req, res) => {
   res.send('RoteirizAI API - Active');
 });
 
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // Database Sync & Start Server
 const startServer = async () => {
   try {

@@ -20,7 +20,7 @@ const RecenterMap = ({ coords }) => {
     const map = useMap();
     useEffect(() => {
         if (coords) map.setView([coords.lat, coords.lon], 13);
-    }, [coords]);
+    }, [coords, map]);
     return null;
 };
 
